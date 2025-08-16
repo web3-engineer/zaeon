@@ -33,12 +33,12 @@ const HeroContent = () => {
           className="flex flex-col gap-6 mt-6 text-6xl font-bold text-white max-w-[600px] w-auto h-auto"
         >
           <span>
-            Providing
+            Acesse
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500">
               {" "}
-              the best{" "}
+              uma nova dimensão {" "}
             </span>
-            project exprience
+            de possibilidades
           </span>
         </motion.div>
 
@@ -46,14 +46,13 @@ const HeroContent = () => {
           variants={slideInFromLeft(0.8)}
           className="text-lg text-gray-400 my-5 max-w-[600px]"
         >
-          I&apos;m a Full Stack Software Engineer with experience in Website,
-          Mobile, and Software development. Check out my projects and skills.
+          Descubra o poder da Web3 com assistentes de IA avançados, personalizáveis e fáceis de usar, cuidadosamente projetados para você.
         </motion.p>
         <motion.a
           variants={slideInFromLeft(1)}
           className="py-2 button-primary text-center text-white cursor-pointer rounded-lg max-w-[200px]"
         >
-          Learn More!
+          Desbloquear agora
         </motion.a>
       </div>
 
@@ -62,7 +61,7 @@ const HeroContent = () => {
         className="w-full h-full flex justify-center items-center"
       >
         <Image
-          src="/mainIconsdark.svg"
+          src="/mainIconsdark2.svg"
           alt="work icons"
           height={650}
           width={650}
