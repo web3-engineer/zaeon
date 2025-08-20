@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     width="" height="" viewBox="0 0 120 120" role="img" aria-label="DeFi icon (coin reactor)">
+    <defs>
+        <!-- Paleta Zaeon -->
+        <linearGradient id="z" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%"  stop-color="#8b5cf6"/>
+            <stop offset="100%" stop-color="#22d3ee"/>
+        </linearGradient>
+
+        <!-- Acento quente sutil para highlights -->
+        <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%"  stop-color="#f59e0b"/>
+            <stop offset="100%" stop-color="#facc15"/>
+        </linearGradient>
+
+        <!-- Glow suave -->
+        <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+            <feGaussianBlur stdDeviation="3" result="b"/>
+            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+
+        <!-- Aura discreta -->
+        <radialGradient id="aura" cx="50%" cy="50%" r="55%">
+            <stop offset="0%" stop-color="#8b5cf6" stop-opacity=".18"/>
+            <stop offset="65%" stop-color="#22d3ee" stop-opacity=".10"/>
+            <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+        </radialGradient>
+
+        <style>
+            .ring  { stroke:url(#z); fill:none; }
+            .thin  { stroke-width:1.2; stroke-linecap:round; stroke-linejoin:round; opacity:.28 }
+            .mid   { stroke-width:2;   stroke-linecap:round; stroke-linejoin:round; opacity:.6  }
+            .bold  { stroke-width:3.5; stroke-linecap:round; stroke-linejoin:round; opacity:.95 }
+            .glow  { filter:url(#glow); }
+            .center{ transform-origin:60px 60px; }
+            .gold  { stroke:url(#g); fill:none; }
+            .iconZ { stroke:url(#z); fill:none; }
+            .fillZ { fill:url(#z); }
+            .fillG { fill:url(#g); }
+            /* acessibilidade */
+            @media (prefers-reduced-motion: reduce){ .no-rm { animation:none !important; } }
+        </style>
+    </defs>
+
+    <!-- Fundo transparente -->
+
+    <!-- Aura -->
+    <circle cx="60" cy="60" r="46" fill="url(#aura)"/>
+
+    <!-- Varredura tipo radar (sutil) -->
+    <g class="center" opacity=".10">
+        <path d="M60 60 L60 10 A50 50 0 0 1 100 28 Z" class="fillZ">
+            <animateTransform attributeName="transform" type="rotate"
+                              from="0 60 60" to="360 60 60" dur="18s" repeatCount="indefinite"/>
+        </path>
+    </g>
+
+    <!-- Anel externo (dash correndo) -->
+    <circle class="ring thin center" cx="60" cy="60" r="50" stroke-dasharray="6 12">
+        <animate attributeName="stroke-dashoffset" from="0" to="-180" dur="18s" repeatCount="indefinite"/>
+        <animateTransform attributeName="transform" type="rotate" from="0 60 60" to="360 60 60" dur="36s" repeatCount="indefinite"/>
+    </circle>
+
+    <!-- Anel intermediário -->
+    <circle class="ring thin" cx="60" cy="60" r="42"/>
+
+    <!-- Circuitos radiais (spokes/segments) -->
+    <g class="iconZ mid glow" opacity=".55">
+        <path d="M60 18 L60 26"/>
+        <path d="M60 94 L60 102"/>
+        <path d="M18 60 L26 60"/>
+        <path d="M94 60 L102 60"/>
+        <g transform="rotate(45 60 60)">
+            <path d="M60 18 L60 26"/><path d="M60 94 L60 102"/>
+        </g>
+        <g transform="rotate(-45 60 60)">
+            <path d="M60 18 L60 26"/><path d="M60 94 L60 102"/>
+        </g>
+    </g>
+
+    <!-- Núcleo da moeda -->
+    <circle class="iconZ mid glow" cx="60" cy="60" r="28"/>
+    <circle class="gold bold glow" cx="60" cy="60" r="24" opacity=".75"/>
+
+    <!-- Caminho para "data runner" no anel -->
+    <path id="runner" d="M 20 60 A 40 40 0 1 0 100 60 A 40 40 0 1 0 20 60 Z" fill="none"/>
+
+    <!-- Partícula viajante (data runner) -->
+    <circle r="2.6" class="fillZ glow" opacity=".95">
+        <animateMotion dur="4.2s" repeatCount="indefinite">
+            <mpath xlink:href="#runner"/>
+        </animateMotion>
+    </circle>
+
+    <!-- Partícula orbitando externa -->
+    <circle cx="60" cy="8" r="2.4" class="fillZ center glow">
+        <animateTransform attributeName="transform" type="rotate" from="0 60 60" to="360 60 60" dur="9s" repeatCount="indefinite"/>
+    </circle>
+
+    <!-- Micro candles / sparkline na base -->
+    <g opacity=".85">
+        <!-- velas -->
+        <g class="glow">
+            <rect x="34" y="86" width="3" height="8" class="fillZ">
+                <animate attributeName="height" values="6;12;6" dur="2.6s" repeatCount="indefinite"/>
+                <animate attributeName="y"      values="88;82;88" dur="2.6s" repeatCount="indefinite"/>
+            </rect>
+            <rect x="40" y="86" width="3" height="10" class="fillZ" opacity=".8">
+                <animate attributeName="height" values="8;14;8" dur="2.2s" repeatCount="indefinite"/>
+                <animate attributeName="y"      values="86;80;86" dur="2.2s" repeatCount="indefinite"/>
+            </rect>
+            <rect x="46" y="86" width="3" height="7" class="fillZ" opacity=".7">
+                <animate attributeName="height" values="5;11;5" dur="2.8s" repeatCount="indefinite"/>
+                <animate attributeName="y"      values="89;83;89" dur="2.8s" repeatCount="indefinite"/>
+            </rect>
+            <rect x="52" y="86" width="3" height="12" class="fillZ">
+                <animate attributeName="height" values="9;15;9" dur="2.4s" repeatCount="indefinite"/>
+                <animate attributeName="y"      values="83;77;83" dur="2.4s" repeatCount="indefinite"/>
+            </rect>
+            <rect x="58" y="86" width="3" height="9" class="fillZ" opacity=".85">
+                <animate attributeName="height" values="7;13;7" dur="2.9s" repeatCount="indefinite"/>
+                <animate attributeName="y"      values="87;81;87" dur="2.9s" repeatCount="indefinite"/>
+            </rect>
+        </g>
+        <!-- highlight animado sobre uma curva -->
+        <path id="spark" d="M26 92 C36 88, 46 96, 56 86 C66 82, 76 90, 86 86" class="iconZ mid"/>
+        <circle r="2.4" fill="#ffffff">
+            <animateMotion dur="3.2s" repeatCount="indefinite">
+                <mpath xlink:href="#spark"/>
+            </animateMotion>
+        </circle>
+    </g>
+
+    <!-- Símbolo $ estilizado (spine + S com brilho) -->
+    <g class="glow">
+        <line x1="60" y1="40" x2="60" y2="82" class="iconZ bold" opacity=".9"/>
+        <line x1="54" y1="40" x2="66" y2="40" class="iconZ mid"/>
+        <line x1="54" y1="82" x2="66" y2="82" class="iconZ mid"/>
+        <path d="M48 46 C48 40, 72 40, 72 46
+             C72 52, 60 54, 60 60
+             C60 66, 72 68, 72 74
+             C72 82, 48 82, 48 74"
+              class="iconZ bold">
+            <animate attributeName="stroke-dasharray" values="2 8; 10 8; 2 8" dur="4s" repeatCount="indefinite"/>
+        </path>
+    </g>
+</svg>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="" height="" viewBox="0 0 120 120" role="img" aria-label="ReFi icon (regenerative leaf)">
+    <defs>
+        <!-- Paleta Zaeon -->
+        <linearGradient id="z" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#22d3ee"/>
+            <stop offset="100%" stop-color="#34d399"/>
+        </linearGradient>
+
+        <!-- Glow -->
+        <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+            <feGaussianBlur stdDeviation="3" result="b"/>
+            <feMerge>
+                <feMergeNode in="b"/>
+                <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+        </filter>
+
+        <!-- Aura -->
+        <radialGradient id="aura" cx="50%" cy="50%" r="55%">
+            <stop offset="0%" stop-color="#34d399" stop-opacity=".18"/>
+            <stop offset="65%" stop-color="#22d3ee" stop-opacity=".10"/>
+            <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+        </radialGradient>
+
+        <style>
+            .ring { stroke:url(#z); fill:none; stroke-width:1.2; opacity:.25 }
+            .wire { stroke:url(#z); fill:none; stroke-width:2; stroke-linejoin:round; stroke-linecap:round; filter:url(#glow) }
+            .face { fill:#0b1a10; fill-opacity:.35; stroke:url(#z); stroke-width:1.4; filter:url(#glow) }
+            .leaf { fill:url(#z); filter:url(#glow) }
+            .bars { stroke:url(#z); stroke-width:1.4; opacity:.7 }
+        </style>
+    </defs>
+
+    <!-- Aura -->
+    <circle cx="60" cy="60" r="46" fill="url(#aura)"/>
+
+    <!-- Anéis -->
+    <circle class="ring" cx="60" cy="60" r="48"/>
+    <circle class="ring" cx="60" cy="60" r="36"/>
+
+    <!-- Prisma hexagonal (ledger natural) -->
+    <polygon points="60,30 90,45 90,75 60,90 30,75 30,45" class="face"/>
+
+    <!-- Broto central (folha holográfica) -->
+    <path d="M60 65 C55 55, 55 40, 60 30 C65 40, 65 55, 60 65 Z"
+          class="leaf">
+        <animate attributeName="d"
+                 values="
+               M60 65 C55 55, 55 55, 60 50 C65 55, 65 55, 60 65 Z;
+               M60 65 C55 55, 55 40, 60 30 C65 40, 65 55, 60 65 Z;
+               M60 65 C55 55, 55 55, 60 50 C65 55, 65 55, 60 65 Z"
+                 dur="4s" repeatCount="indefinite"/>
+    </path>
+
+    <!-- Linhas de energia subindo (nutrição regenerativa) -->
+    <line x1="50" y1="90" x2="50" y2="70" class="bars">
+        <animate attributeName="y2" values="90;60;90" dur="3s" repeatCount="indefinite"/>
+    </line>
+    <line x1="60" y1="90" x2="60" y2="65" class="bars">
+        <animate attributeName="y2" values="90;55;90" dur="2.5s" repeatCount="indefinite"/>
+    </line>
+    <line x1="70" y1="90" x2="70" y2="70" class="bars">
+        <animate attributeName="y2" values="90;58;90" dur="3.5s" repeatCount="indefinite"/>
+    </line>
+
+    <!-- Partícula orbitando (energia vital) -->
+    <circle cx="60" cy="15" r="2.5" fill="url(#z)">
+        <animateTransform attributeName="transform" type="rotate"
+                          from="0 60 60" to="360 60 60" dur="8s" repeatCount="indefinite"/>
+    </circle>
+</svg>

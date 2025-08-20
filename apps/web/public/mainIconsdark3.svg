@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="650" height="650" viewBox="-325 -325 650 650" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+    <title id="title">Zaeon — Profissões (inline, contraste alto)</title>
+    <desc id="desc">Background transparente, anéis orbitais, cards translúcidos e 11 ícones de profissões inline para compatibilidade total.</desc>
+
+    <defs>
+        <linearGradient id="ring" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#8b5cf6" stop-opacity=".8"/>
+            <stop offset="100%" stop-color="#22d3ee" stop-opacity=".8"/>
+        </linearGradient>
+
+        <filter id="feather" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="2.4" result="blur"/>
+            <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+        </filter>
+
+        <style>
+            .ring{fill:none;stroke:url(#ring);stroke-opacity:.20}
+            .node{fill:#0f1220;fill-opacity:.45;stroke:#ffffff33;stroke-width:1.25}
+            .icon{fill:#e5e7eb;opacity:.98}
+            .dim{opacity:.7}
+            .dim2{opacity:.55}
+        </style>
+    </defs>
+
+    <!-- fundo propositalmente transparente -->
+
+    <!-- grade orbital (mantida) -->
+    <g>
+        <!-- hi-tech grid: circles + extended rows/columns + diagonals -->
+        <g id="tech-grid">
+            <!-- concentric orbits (unchanged radii) -->
+            <circle class="ring" r="260"/>
+            <circle class="ring" r="210"/>
+            <circle class="ring" r="160"/>
+            <circle class="ring" r="110"/>
+            <circle class="ring" r="60"/>
+
+            <!-- AXES that extend well beyond the outer circle -->
+            <g stroke="url(#ring)" stroke-opacity=".22" stroke-linecap="round">
+                <!-- main crosshair -->
+                <line x1="-340" y1="0" x2="340" y2="0"/>
+                <line x1="0" y1="-340" x2="0" y2="340"/>
+
+                <!-- extra columns/rows (like the original “grid beyond the circle”) -->
+                <line x1="-280" y1="-340" x2="-280" y2="340"/>
+                <line x1="-210" y1="-340" x2="-210" y2="340"/>
+                <line x1="-140" y1="-340" x2="-140" y2="340"/>
+                <line x1="-70"  y1="-340" x2="-70"  y2="340"/>
+                <line x1="70"   y1="-340" x2="70"   y2="340"/>
+                <line x1="140"  y1="-340" x2="140"  y2="340"/>
+                <line x1="210"  y1="-340" x2="210"  y2="340"/>
+                <line x1="280"  y1="-340" x2="280"  y2="340"/>
+
+                <line x1="-340" y1="-280" x2="340" y2="-280"/>
+                <line x1="-340" y1="-210" x2="340" y2="-210"/>
+                <line x1="-340" y1="-140" x2="340" y2="-140"/>
+                <line x1="-340" y1="-70"  x2="340" y2="-70"/>
+                <line x1="-340" y1="70"   x2="340" y2="70"/>
+                <line x1="-340" y1="140"  x2="340" y2="140"/>
+                <line x1="-340" y1="210"  x2="340" y2="210"/>
+                <line x1="-340" y1="280"  x2="340" y2="280"/>
+            </g>
+
+            <!-- faint diagonals for sci-fi vibe -->
+            <g stroke="url(#ring)" stroke-opacity=".14" stroke-linecap="round">
+                <line x1="-360" y1="-360" x2="360" y2="360"/>
+                <line x1="-360" y1="360"  x2="360" y2="-360"/>
+                <!-- inner diagonals (offset) -->
+                <line x1="-360" y1="-220" x2="220" y2="360"/>
+                <line x1="-220" y1="-360" x2="360" y2="220"/>
+                <line x1="-360" y1="220"  x2="220" y2="-360"/>
+                <line x1="-220" y1="360"  x2="360" y2="-220"/>
+            </g>
+
+            <!-- tiny corner ticks (very subtle) -->
+            <g stroke="url(#ring)" stroke-opacity=".10" stroke-linecap="round" stroke-width="2">
+                <path d="M-320 -320 h18 M-320 -320 v18"/>
+                <path d="M 320 -320 h-18 M 320 -320 v18"/>
+                <path d="M-320  320 h18 M-320  320 v-18"/>
+                <path d="M 320  320 h-18 M 320  320 v-18"/>
+            </g>
+        </g>  <line class="ring" x1="0" y1="-280" x2="0" y2="280"/>
+
+    </g>
+
+    <!-- ====== ANEL EXTERNO (8 nós) ====== -->
+
+    <!-- Estudante (chapéu) -->
+    <g transform="translate(0,-200)">
+        <rect class="node" x="-28" y="-28" width="56" height="56" rx="10" filter="url(#feather)"/>
+        <path d="M0 -10 L16 -2 L0 6 L-16 -2 Z" class="icon"/>
+        <rect x="-8" y="6" width="16" height="4" rx="2" ry="2" class="icon"/>
+        <path d="M16 -2 L16 8" stroke="#e5e7eb" stroke-width="2"/>
+        <circle cx="16" cy="8" r="2" class="icon dim2"/>
+    </g>
+
+    <!-- Engenheiro (engrenagem) -->
+    <g transform="translate(140,-140)">
+        <rect class="node" x="-28" y="-28" width="56" height="56" rx="10" filter="url(#feather)"/>
+        <circle cx="0" cy="0" r="9" class="icon"/>
+        <circle cx="0" cy="0" r="14" fill="none" stroke="#e5e7eb" stroke-width="2"/>
+        <g stroke="#e5e7eb" stroke-width="4" class="dim">
+            <line x1="0" y1="-16" x2="0" y2="-12"/><line x1="0" y1="12" x2="0" y2="16"/>
+            <line x1="-16" y1="0" x2="-12" y2="0"/><line x1="12" y1="0" x2="16" y2="0"/>
+        </g>
+        <g transform="rotate(45)" stroke="#e5e7eb" stroke-width="4" class="dim">
+            <line x1="0" y1="-16" x2="0" y2="-12"/><line x1="0" y1="12" x2="0" y2="16"/>
+        </g>
+        <g transform="rotate(-45)" stroke="#e5e7eb" stroke-width="4" class="dim">
+            <line x1="0" y1="-16" x2="0" y2="-12"/><line x1="0" y1="12" x2="0" y2="16"/>
+        </g>
+    </g>
+
+    <!-- Médico (estetoscópio) -->
+    <g transform="translate(200,0)">
+        <rect class="node" x="-28" y="-28" width="56" height="56" rx="10" filter="url(#feather)"/>
+        <circle cx="-8" cy="-6" r="3" class="icon"/>
+        <circle cx="8" cy="-6" r="3" class="icon"/>
+        <path d="M -8 -6 Q -14 8 0 12 Q 14 8 8 -6" stroke="#e5e7eb" stroke-width="2" fill="none"/>
+        <line x1="0" y1="12" x2="0" y2="18" stroke="#e5e7eb" stroke-width="2"/>
+        <circle cx="0" cy="20" r="4" class="icon dim"/>
+    </g>
+
+    <!-- Advogado (balança) -->
+    <g transform="translate(140,140)">
+        <rect class="node" x="-28" y="-28" width="56" height="56" rx="10" filter="url(#feather)"/>
+        <line x1="0" y1="-12" x2="0" y2="12" stroke="#e5e7eb" stroke-width="2"/>
+        <line x1="-14" y1="-4" x2="14" y2="-4" stroke="#e5e7eb" stroke-width="2"/>
+        <line x1="-10" y1="-4" x2="-10" y2="4" stroke="#e5e7eb" stroke-width="2"/>
+        <line x1="10" y1="-4" x2="10" y2="4" stroke="#e5e7eb" stroke-width="2"/>
+        <path d="M -16 4 L -4 4 L -10 10 Z" class="icon dim2"/>
+        <path d="M 16 4 L 4 4 L 10 10 Z" class="icon dim2"/>
+    </g>
+
+    <!-- Programador (</>) -->
+    <g transform="translate(0,200)">
+        <rect class="node" x="-28" y="-28" width="56" height="56" rx="10" filter="url(#feather)"/>
+        <path d="M -6 -4 L -12 2 L -6 8" stroke="#e5e7eb" stroke-width="2" fill="none"/>
+        <path d="M 6 -4 L 12 2 L 6 8" stroke="#e5e7eb" stroke-width="2" fill="none"/>
+        <rect x="-1.5" y="-10" width="3" height="24" class="icon dim2"/>
+    </g>
+
+    <!-- Enfermeiro (seringa) -->
+    <g transform="translate(-140,140)">
+        <rect class="node" x="-28" y="-28" width="56" height="56" rx="10" filter="url(#feather)"/>
+        <rect x="-10" y="-4" width="20" height="8" rx="2" ry="2" class="icon"/>
+        <line x1="0" y1="-8" x2="0" y2="-14" stroke="#e5e7eb" stroke-width="2"/>
+        <line x1="-6" y1="0" x2="6" y2="0" stroke="#e5e7eb" stroke-width="2"/>
+        <rect x="-12" y="-1.5" width="4" height="3" fill="#0f1220"/>
+        <rect x="8" y="-1.5" width="4" height="3" fill="#0f1220"/>
+    </g>
+
+    <!-- Professor (livro) -->
+    <g transform="translate(-200,0)">
+        <rect class="node" x="-28" y="-28" width="56" height="56" rx="10" filter="url(#feather)"/>
+        <rect x="-12" y="-10" width="24" height="20" rx="2" ry="2" class="icon"/>
+        <line x1="0" y1="-10" x2="0" y2="10" stroke="#0f1220" stroke-width="2"/>
+    </g>
+
+    <!-- Pesquisador (microscópio) -->
+    <g transform="translate(-140,-140)">
+        <rect class="node" x="-28" y="-28" width="56" height="56" rx="10" filter="url(#feather)"/>
+        <rect x="-12" y="8" width="24" height="4" class="icon dim"/>
+        <rect x="-2" y="-6" width="4" height="16" class="icon"/>
+        <path d="M -6 -8 Q 8 -16 12 4" stroke="#e5e7eb" stroke-width="2" fill="none"/>
+        <rect x="-10" y="-12" width="12" height="4" class="icon"/>
+        <rect x="-10" y="2" width="18" height="3" class="icon"/>
+    </g>
+
+    <!-- Empreendedor (maleta) -->
+    <g transform="translate(-40,120)">
+        <rect class="node" x="-28" y="-28" width="56" height="56" rx="10" filter="url(#feather)"/>
+        <rect x="-12" y="-4" width="24" height="16" rx="2" ry="2" class="icon"/>
+        <rect x="-6" y="-10" width="12" height="6" rx="2" ry="2" class="icon"/>
+        <line x1="-12" y1="2" x2="12" y2="2" stroke="#0f1220" stroke-width="2"/>
+    </g>
+
+    <!-- Designer (pena) -->
+    <g transform="translate(60,-120)">
+        <rect class="node" x="-28" y="-28" width="56" height="56" rx="10" filter="url(#feather)"/>
+        <path d="M 0 -12 L 8 8 L 0 12 L -8 8 Z" class="icon"/>
+        <circle cx="0" cy="0" r="3" fill="#0f1220"/>
+    </g>
+
+    <!-- ====== ANEL INTERNO (3 nós) ====== -->
+
+    <!-- Extra 1: Médico alternativo (cruz) -->
+    <g transform="translate(120,0)">
+        <rect class="node" x="-26" y="-26" width="52" height="52" rx="10" filter="url(#feather)"/>
+        <rect x="-6" y="-16" width="12" height="32" class="icon"/>
+        <rect x="-16" y="-6" width="32" height="12" class="icon"/>
+    </g>
+
+    <!-- Extra 3: Pesquisa (átomo simples) -->
+    <g transform="translate(-60,-104)">
+        <rect class="node" x="-26" y="-26" width="52" height="52" rx="10" filter="url(#feather)"/>
+        <circle cx="0" cy="0" r="2.8" class="icon"/>
+        <ellipse cx="0" cy="0" rx="14" ry="6" fill="none" stroke="#e5e7eb" stroke-width="2"/>
+        <g transform="rotate(60)">
+            <ellipse cx="0" cy="0" rx="14" ry="6" fill="none" stroke="#e5e7eb" stroke-width="2"/>
+        </g>
+        <g transform="rotate(-60)">
+            <ellipse cx="0" cy="0" rx="14" ry="6" fill="none" stroke="#e5e7eb" stroke-width="2"/>
+        </g>
+    </g>
+
+</svg>

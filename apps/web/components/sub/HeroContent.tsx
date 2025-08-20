@@ -24,7 +24,7 @@ const HeroContent = () => {
         >
           <SparklesIcon className="text-[#b49bff] mr-[10px] h-5 w-5" />
           <h1 className="Welcome-text text-[13px]">
-            Fullstack Developer Portfolio
+            Powered by Google
           </h1>
         </motion.div>
 
@@ -61,7 +61,7 @@ const HeroContent = () => {
         className="w-full h-full flex justify-center items-center"
       >
         <Image
-          src="/mainIconsdark2.svg"
+          src="/mainIconsdark3.svg"
           alt="work icons"
           height={650}
           width={650}

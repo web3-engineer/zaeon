@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="" height="" viewBox="0 0 120 120" role="img" aria-label="EdFi icon (holographic cube)">
+
+    <defs>
+        <!-- paleta Zaeon -->
+        <linearGradient id="z" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%"  stop-color="#8b5cf6"/>
+            <stop offset="100%" stop-color="#22d3ee"/>
+        </linearGradient>
+
+        <!-- glow suave -->
+        <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+            <feGaussianBlur stdDeviation="3" result="b"/>
+            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+
+        <!-- aura discreta -->
+        <radialGradient id="aura" cx="50%" cy="50%" r="55%">
+            <stop offset="0%" stop-color="#8b5cf6" stop-opacity=".18"/>
+            <stop offset="65%" stop-color="#22d3ee" stop-opacity=".10"/>
+            <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+        </radialGradient>
+
+        <!-- linhas de scan que se movem no topo (páginas) -->
+        <pattern id="scan" width="6" height="6" patternUnits="userSpaceOnUse">
+            <rect width="6" height="6" fill="transparent"/>
+            <rect y="0" width="6" height="2" fill="url(#z)" opacity=".55"/>
+            <animateTransform attributeName="patternTransform" type="translate" from="0 0" to="6 0" dur="2s" repeatCount="indefinite"/>
+        </pattern>
+
+        <style>
+            .ring { stroke:url(#z); fill:none; stroke-width:1.2; opacity:.28 }
+            .wire{ stroke:url(#z); fill:none; stroke-width:2; stroke-linejoin:round; stroke-linecap:round; filter:url(#glow) }
+            .face{ fill:#0b0f25; fill-opacity:.35; stroke:url(#z); stroke-width:1.4; filter:url(#glow) }
+            .bars{ fill:url(#z); filter:url(#glow) }
+            .center { transform-origin:60px 60px; }
+            /* acessibilidade */
+            @media (prefers-reduced-motion: reduce){
+            .rm-stop{ animation: none !important; }
+            }
+        </style>
+    </defs>
+
+    <!-- fundo transparente -->
+
+    <!-- aura -->
+    <circle cx="60" cy="60" r="46" fill="url(#aura)"/>
+
+    <!-- anéis leves para integrar ao hero -->
+    <circle class="ring" cx="60" cy="60" r="48"/>
+    <circle class="ring" cx="60" cy="60" r="36"/>
+
+    <!-- CUBO HOLOGRÁFICO (isométrico) -->
+    <!-- vértices: top losango -->
+    <!-- topo com scan animado (páginas) -->
+    <polygon points="60,36 84,48 60,60 36,48" fill="url(#scan)" stroke="url(#z)" stroke-width="1.4" opacity=".9"/>
+
+    <!-- faces laterais -->
+    <polygon points="36,48 60,60 60,84 36,72" class="face"/>
+    <polygon points="60,60 84,48 84,72 60,84" class="face"/>
+
+    <!-- arestas -->
+    <polyline points="36,48 60,36 84,48 60,60 36,48" class="wire"/>
+    <polyline points="60,60 60,84 84,72 84,48" class="wire"/>
+    <polyline points="60,60 36,48 36,72 60,84" class="wire"/>
+
+    <!-- micro rotação respirando (dar vida sem exagero) -->
+    <g class="center" style="animation: wob 6s ease-in-out infinite;">
+        <animateTransform attributeName="transform" type="rotate" values="-3 60 60; 3 60 60; -3 60 60" dur="6s" repeatCount="indefinite"/>
+    </g>
+
+    <!-- barras de progresso (conhecimento acumulando) -->
+    <g>
+        <rect class="bars" x="26" y="84" width="6"  height="0"  rx="2">
+            <animate attributeName="height" values="0;10;0" dur="3s" repeatCount="indefinite"/>
+            <animate attributeName="y"      values="84;74;84" dur="3s" repeatCount="indefinite"/>
+        </rect>
+        <rect class="bars" x="34" y="84" width="6"  height="0"  rx="2" opacity=".75">
+            <animate attributeName="height" values="0;18;0" dur="3.4s" repeatCount="indefinite"/>
+            <animate attributeName="y"      values="84;66;84" dur="3.4s" repeatCount="indefinite"/>
+        </rect>
+        <rect class="bars" x="42" y="84" width="6"  height="0"  rx="2" opacity=".6">
+            <animate attributeName="height" values="0;14;0" dur="2.6s" repeatCount="indefinite"/>
+            <animate attributeName="y"      values="84;70;84" dur="2.6s" repeatCount="indefinite"/>
+        </rect>
+    </g>
+
+    <!-- partícula orbitando (holograma ativo) -->
+    <circle cx="60" cy="10" r="2.2" fill="url(#z)" class="center">
+        <animateTransform attributeName="transform" type="rotate" from="0 60 60" to="360 60 60" dur="9s" repeatCount="indefinite"/>
+    </circle>
+
+</svg>
