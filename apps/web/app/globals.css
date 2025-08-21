@@ -69,3 +69,90 @@
 html {
   scroll-behavior: smooth;
 }
+/* ===== Cosmic Aurora Border (conic gradient) ===== */
+
+/* registra a custom property animável (suporte moderno) */
+@property --angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes zaeon-rotate {
+  to { --angle: 360deg; }
+}
+
+.zaeon-card {
+  position: relative;
+  border-radius: 1rem; /* ~ rounded-2xl */
+  background: rgba(3, 0, 20, 0.36); /* #0300145e */
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(112, 66, 248, 0.38);
+  overflow: hidden;
+  overflow: clip; /* protege dos before/after */
+  isolation: isolate; /* cria stacking context pro glow */
+}
+
+/* Borda animada: pseudo-elemento com conic-gradient + máscara */
+.zaeon-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 2px; /* espessura da borda visível */
+  border-radius: inherit;
+
+  /* gradiente cônico girando entre suas cores de tema */
+  background:
+          conic-gradient(from var(--angle),
+          var(--c1, #8b5cf6) 0deg,
+          var(--c2, #22d3ee) 120deg,
+          var(--c3, #ca8a04) 240deg,
+          var(--c1, #8b5cf6) 360deg);
+
+  /* “fura” o centro para mostrar o conteúdo como se fosse uma borda */
+  -webkit-mask:
+          linear-gradient(#000 0 0) content-box,
+          linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+          linear-gradient(#000 0 0) content-box,
+          linear-gradient(#000 0 0);
+  mask-composite: exclude;
+
+  animation: zaeon-rotate 14s linear infinite;
+  z-index: -1; /* fica atrás do conteúdo, mas acima do fundo */
+}
+
+/* Glow suave externo (só no hover para poupar GPU) */
+.zaeon-card:hover::after {
+  content: "";
+  position: absolute;
+  inset: -12px; /* um pouco para fora do card */
+  border-radius: inherit;
+  background: radial-gradient(40% 40% at 50% 50%,
+  color-mix(in hsl, var(--c2, #22d3ee) 30%, transparent) 0%,
+  transparent 70%);
+  filter: blur(10px);
+  opacity: 0.8;
+  z-index: -2;
+  pointer-events: none;
+}
+
+/* overlay de “grid” interno muito sutil (opcional) */
+.zaeon-grid {
+  background-image:
+          linear-gradient(to right, rgba(255,255,255,0.06) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 24px 24px;
+  mask-image: radial-gradient(120% 120% at 50% 20%, #000 40%, transparent 80%);
+}
+
+/* estados: espessura e velocidade */
+.zaeon-card:hover::before { padding: 3px; }
+.zaeon-card[data-fast="true"]::before { animation-duration: 8s; }
+
+/* variações de cor (define via CSS vars) */
+.zaeon-card[data-variant="defi"] { --c1:#22d3ee; --c2:#8b5cf6; --c3:#d97706; }
+.zaeon-card[data-variant="refi"] { --c1:#22c55e; --c2:#22d3ee; --c3:#8b5cf6; }
+.zaeon-card[data-variant="edfi"] { --c1:#f472b6; --c2:#8b5cf6; --c3:#22d3ee; }

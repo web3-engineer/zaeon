@@ -4,11 +4,13 @@ import "./globals.css";
 import StarsCanvas from "@/components/main/StarBackground";
 import Navbar from "@/components/main/Navbar";
 import Footer from "@/components/main/Footer";
+import { LoginModalProvider } from "@/app/state/login-modal";
+import LoginModal from "@/components/LoginModal";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Space Portfolio",
+  title: "Zaeon",
   description: "This is my portfolio",
 };
 
@@ -22,10 +24,13 @@ export default function RootLayout({
       <body
         className={`${inter.className} bg-[#030014] overflow-y-scroll overflow-x-hidden`}
       >
-        <StarsCanvas />
-        <Navbar />
-        {children}
-        <Footer />
+        <LoginModalProvider>
+          <StarsCanvas />
+          <Navbar />
+          {children}
+          <Footer />
+          <LoginModal />
+        </LoginModalProvider>
       </body>
     </html>
   );

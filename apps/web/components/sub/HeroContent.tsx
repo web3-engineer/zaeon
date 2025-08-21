@@ -9,65 +9,69 @@ import {
 } from "@/utils/motion";
 import { SparklesIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
+import LoginModal from "@/components/sub/LoginModal";
+import { useLoginModal } from "@/app/state/login-modal";
 
 const HeroContent = () => {
+  const { open, openLogin, closeLogin } = useLoginModal();
+
   return (
-    <motion.div
-      initial="hidden"
-      animate="visible"
-      className="flex flex-row items-center justify-center px-20 mt-40 w-full z-[20]"
-    >
-      <div className="h-full w-full flex flex-col gap-5 justify-center m-auto text-start">
+      <>
         <motion.div
-          variants={slideInFromTop}
-          className="Welcome-box py-[8px] px-[7px] border border-[#7042f88b] opacity-[0.9]"
+            initial="hidden"
+            animate="visible"
+            className="flex flex-row items-center justify-center px-20 mt-40 w-full z-[20]"
         >
-          <SparklesIcon className="text-[#b49bff] mr-[10px] h-5 w-5" />
-          <h1 className="Welcome-text text-[13px]">
-            Powered by Google
-          </h1>
-        </motion.div>
+          <div className="h-full w-full flex flex-col gap-5 justify-center m-auto text-start">
+            <motion.div
+                variants={slideInFromTop}
+                className="Welcome-box py-[8px] px-[7px] border border-[#7042f88b] opacity-[0.9]"
+            >
+              <SparklesIcon className="text-[#b49bff] mr-[10px] h-5 w-5" />
+              <h1 className="Welcome-text text-[13px]">Powered by Google</h1>
+            </motion.div>
 
-        <motion.div
-          variants={slideInFromLeft(0.5)}
-          className="flex flex-col gap-6 mt-6 text-6xl font-bold text-white max-w-[600px] w-auto h-auto"
-        >
-          <span>
-            Acesse
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500">
-              {" "}
-              uma nova dimensão {" "}
+            <motion.div
+                variants={slideInFromLeft(0.5)}
+                className="flex flex-col gap-6 mt-6 text-6xl font-bold text-white max-w-[600px]"
+            >
+            <span>
+              Acesse
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500">
+                {" "}uma nova dimensão{" "}
+              </span>
+              de possibilidades
             </span>
-            de possibilidades
-          </span>
+            </motion.div>
+
+            <motion.p
+                variants={slideInFromLeft(0.8)}
+                className="text-lg text-gray-400 my-5 max-w-[600px]"
+            >
+              Descubra o poder da Web3 com assistentes de IA avançados, personalizáveis e fáceis de usar.
+            </motion.p>
+
+            {/* botão -> abre modal */}
+            <motion.button
+                variants={slideInFromLeft(1)}
+                onClick={openLogin}
+                className="py-2 button-primary text-center text-white cursor-pointer rounded-lg max-w-[200px]"
+            >
+              Desbloquear agora
+            </motion.button>
+          </div>
+
+          <motion.div
+              variants={slideInFromRight(0.8)}
+              className="w-full h-full flex justify-center items-center"
+          >
+            <Image src="/mainIconsdark3.svg" alt="work icons" height={650} width={650} />
+          </motion.div>
         </motion.div>
 
-        <motion.p
-          variants={slideInFromLeft(0.8)}
-          className="text-lg text-gray-400 my-5 max-w-[600px]"
-        >
-          Descubra o poder da Web3 com assistentes de IA avançados, personalizáveis e fáceis de usar, cuidadosamente projetados para você.
-        </motion.p>
-        <motion.a
-          variants={slideInFromLeft(1)}
-          className="py-2 button-primary text-center text-white cursor-pointer rounded-lg max-w-[200px]"
-        >
-          Desbloquear agora
-        </motion.a>
-      </div>
-
-      <motion.div
-        variants={slideInFromRight(0.8)}
-        className="w-full h-full flex justify-center items-center"
-      >
-        <Image
-          src="/mainIconsdark3.svg"
-          alt="work icons"
-          height={650}
-          width={650}
-        />
-      </motion.div>
-    </motion.div>
+        {/* modal de login */}
+        <LoginModal open={open} onClose={closeLogin} />
+      </>
   );
 };
 
