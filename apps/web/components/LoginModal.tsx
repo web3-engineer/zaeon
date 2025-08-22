@@ -39,8 +39,7 @@ export default function LoginModal({ open, onOpenChange }: Props) {
             const res = await signIn("credentials", {
                 email,
                 password: pass,
-                redirect: true,
-                callbackUrl: "/dashboard",   //
+                redirect: false,
             });
 
             if (res?.error) {

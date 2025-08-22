@@ -16,14 +16,19 @@ export const authOptions: NextAuthOptions = {
             async authorize(creds) {
                 if (!creds?.email || !creds?.password) return null;
 
-                // Usuário “oficial” via .env (sem DB)
-                const demoEmail = process.env.DEMO_LOGIN;
-                const demoPass  = process.env.DEMO_PASSWORD;
+                const email = creds.email.trim().toLowerCase();
+                const password = `${creds.password}`;
+
+                const demoEmail = (process.env.DEMO_LOGIN || "").trim().toLowerCase();
+                const demoPass  = process.env.DEMO_PASSWORD || "";
                 const demoRole  = (process.env.DEMO_ROLE ?? "CLIENTE").toUpperCase();
 
-                if (demoEmail && demoPass &&
-                    creds.email === demoEmail && creds.password === demoPass) {
-                    return { id: "user-demo", email: demoEmail, role: demoRole };
+                if (process.env.NODE_ENV === "development") {
+                  console.log("[auth] has DEMO_LOGIN:", !!demoEmail, "has DEMO_PASSWORD:", !!demoPass, "role:", demoRole);
+                }
+
+                if (demoEmail && demoPass && email === demoEmail && password === demoPass) {
+                  return { id: "user-demo", email: demoEmail, role: demoRole } as any;
                 }
                 return null;
             },
@@ -37,6 +42,16 @@ export const authOptions: NextAuthOptions = {
         async session({ session, token }) {
             (session.user as any).role = (token as any).role ?? "CLIENTE";
             return session;
+        },
+        async redirect({ url, baseUrl }) {
+            try {
+              const target = new URL(url, baseUrl);
+              if (target.origin === baseUrl) {
+                // honra callbackUrl interno (ex: /dashboard/cliente)
+                return target.pathname.startsWith("/") ? target.pathname + target.search : "/dashboard";
+              }
+            } catch {}
+            return "/dashboard";
         },
     },
     pages: { signIn: "/login", error: "/login" },
