@@ -2,37 +2,39 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import useSWR from "swr";
 import { format } from "date-fns";
+
 import EnergyAreaChart from "./EnergyAreaChart";
 import InjectionBarChart from "./InjectionBarChart";
 import KpiCard from "./KpiCard";
 import RecentInvoices from "./RecentInvoices";
 import ClientSelectorCard from "./ClientSelectorCard";
+
 import type { ClientRecord } from "@/data/clients/types";
 import { CLIENTS } from "@/data/clients/mmc/clients";
 
-// ----------------------
-// D A D O S   M O C K
-// ----------------------
+// ===== Tipos de dados =====
 type Daily = {
-  date: string;     // ISO
-  inj_kWh: number;  // energia injetada (kWh)
-  cons_kWh: number; // energia consumida (kWh)
-  value_R$: number; // valor gerado pela usina (R$)
+  date: string;
+  inj_kWh: number;
+  cons_kWh: number;
+  value_R$?: number;
 };
 
 type Invoice = {
   id: string;
-  ref: string;       // competência (ex: 2025-07)
+  ref: string;
   enelNumber: string;
   inj_kWh: number;
   cons_kWh: number;
   saldo_kWh: number;
-  amount_R$: number; // positivo = pagar / negativo = crédito
+  amount_R$: number;
   status: "PAGA" | "ENVIADA" | "GERANDO...";
   pdfUrl?: string;
 };
 
+// ===== Mock (fallback visual) =====
 const MOCK_DAILY: Daily[] = [
   { date: "2025-07-01", inj_kWh: 210, cons_kWh: 260, value_R$: 175.3 },
   { date: "2025-07-02", inj_kWh: 205, cons_kWh: 240, value_R$: 170.1 },
@@ -101,73 +103,117 @@ const MOCK_INVOICES: Invoice[] = [
   },
 ];
 
-function currency(n: number) {
-  return n.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-}
+// ===== SWR fetcher =====
+const fetcher = (u: string) => fetch(u).then((r) => r.json());
+
+type ApiResp = {
+  ok: boolean;
+  source?: "xlsx" | "mock" | "empty";
+  data: Daily[];
+  file?: string;
+  sheet?: string;
+  message?: string;
+};
 
 export default function ClientDashboard({ company }: { company: string }) {
-  // Começa já com o primeiro cliente selecionado (mantém tudo visível)
   const [client, setClient] = useState<ClientRecord | null>(CLIENTS[0]);
   const [days] = useState(30);
+  const [month] = useState<string>("jun");
 
-  // Por enquanto, usamos o mesmo mock para todos; quando ligar o backend,
-  // basta trocar dailyData conforme o client.id/usina.
-  const dailyData = MOCK_DAILY;
+  const { data: api, error } = useSWR<ApiResp>(
+      `/api/usina/data?m=${month}&client=${client?.numeroCliente ?? ""}`,
+      fetcher,
+      { revalidateOnFocus: false }
+  );
+
+  const apiOk = api?.ok === true;
+  const fromMock = api?.source === "mock";
+  const showHardError = !!error || (api && api.ok === false);
+
+  // Dados para os gráficos
+  const dailyData: Daily[] = apiOk ? api!.data : MOCK_DAILY;
 
   const { injTotal, consTotal, valueTotal, injAvgDay } = useMemo(() => {
     const slice = dailyData.slice(-days);
-    const inj = slice.reduce((s, d) => s + d.inj_kWh, 0);
-    const cons = slice.reduce((s, d) => s + d.cons_kWh, 0);
-    const val = slice.reduce((s, d) => s + d.value_R$, 0);
+    const inj = slice.reduce((s, d) => s + (d.inj_kWh || 0), 0);
+    const cons = slice.reduce((s, d) => s + (d.cons_kWh || 0), 0);
+    const val = slice.reduce((s, d) => s + (d.value_R$ || 0), 0);
     const avg = inj / (slice.length || 1);
     return { injTotal: inj, consTotal: cons, valueTotal: val, injAvgDay: avg };
   }, [days, dailyData]);
 
-  const last = dailyData[dailyData.length - 1];
+  const lastDate =
+      dailyData.length > 0
+          ? dailyData[dailyData.length - 1].date
+          : new Date().toISOString();
+
+  function currency(n: number) {
+    return n.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+  }
 
   return (
-    <main className="min-h-screen w-full px-6 md:px-10 py-8 text-white">
-      <header className="mb-6">
-        <h1 className="text-2xl md:text-3xl font-semibold">Dashboard — {company}</h1>
-        <p className="text-sm text-zinc-300">
-          Atualizado em {format(new Date(last.date), "dd/MM/yyyy")}
-        </p>
-      </header>
+      <main className="min-h-screen w-full px-6 md:px-10 py-8 text-white">
+        <header className="mb-6">
+          <h1 className="text-2xl md:text-3xl font-semibold">
+            Dashboard — {company}
+          </h1>
+          <p className="text-sm text-zinc-300">
+            Atualizado em {format(new Date(lastDate), "dd/MM/yyyy")}
+          </p>
+        </header>
 
-      {/* ======== KPIs (KPI #1 é o seletor de cliente) ======== */}
-      <section className="grid gap-4 md:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mt-6">
-        {/* KPI 1: Card de seleção de cliente */}
-        <ClientSelectorCard value={client} onChange={setClient} />
+        {/* Mensageria */}
+        {showHardError && (
+            <div className="mb-4 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-red-300">
+              <strong>Não foi possível carregar os dados.</strong>{" "}
+              Exibindo visualização de demonstração.
+            </div>
+        )}
+        {!showHardError && fromMock && (
+            <div className="mb-4 rounded-xl border border-blue-500/20 bg-blue-500/5 px-4 py-3 text-blue-300">
+              Dados de demonstração carregados para este cliente.
+            </div>
+        )}
 
-        {/* KPI 2 */}
-        <KpiCard title="Consumo (30d)" value={`${consTotal.toFixed(0)} kWh`} hint="Consumo medido" />
+        {/* KPIs */}
+        <section className="grid gap-4 md:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mt-6">
+          <ClientSelectorCard value={client} onChange={setClient} />
+          <KpiCard
+              title="Consumo (30d)"
+              value={`${consTotal.toFixed(0)} kWh`}
+              hint="Consumo medido"
+          />
+          <KpiCard
+              title="Valor gerado (30d)"
+              value={currency(valueTotal)}
+              hint="Estimativa de geração R$"
+          />
+          <KpiCard
+              title="Média diária injetada"
+              value={`${injAvgDay.toFixed(0)} kWh/dia`}
+              hint="Produção média dos últimos 30 dias"
+          />
+        </section>
 
-        {/* KPI 3 */}
-        <KpiCard title="Valor gerado (30d)" value={currency(valueTotal)} hint="Estimativa de geração R$" />
+        {/* Gráficos */}
+        <section className="mt-8 grid gap-6 grid-cols-1 lg:grid-cols-3">
+          <div className="lg:col-span-2 rounded-2xl border border-[#2b2f44] bg-[#0a0f1e] p-4">
+            <h3 className="text-lg font-medium mb-2">Injeção × Consumo (kWh)</h3>
+            <EnergyAreaChart data={dailyData} />
+          </div>
+          <div className="rounded-2xl border border-[#2b2f44] bg-[#0a0f1e] p-4">
+            <h3 className="text-lg font-medium mb-2">Injeção diária (kWh)</h3>
+            <InjectionBarChart data={dailyData} />
+          </div>
+        </section>
 
-        {/* KPI 4 */}
-        <KpiCard title="Média diária injetada" value={`${injAvgDay.toFixed(0)} kWh/dia`} hint="Produção média dos últimos 30 dias" />
-      </section>
-
-      {/* ======== Gráficos ======== */}
-      <section className="mt-8 grid gap-6 grid-cols-1 lg:grid-cols-3">
-        <div className="lg:col-span-2 rounded-2xl border border-[#2b2f44] bg-[#0a0f1e] p-4">
-          <h3 className="text-lg font-medium mb-2">Injeção × Consumo (kWh)</h3>
-          <EnergyAreaChart data={dailyData} />
-        </div>
-        <div className="rounded-2xl border border-[#2b2f44] bg-[#0a0f1e] p-4">
-          <h3 className="text-lg font-medium mb-2">Injeção diária (kWh)</h3>
-          <InjectionBarChart data={dailyData} />
-        </div>
-      </section>
-
-      {/* ======== Faturas ENEL / Compensações ======== */}
-      <section className="mt-8">
-        <div className="rounded-2xl border border-[#2b2f44] bg-[#0a0f1e] p-4">
-          <h3 className="text-lg font-medium mb-4">Faturas & Compensações</h3>
-          <RecentInvoices rows={MOCK_INVOICES} />
-        </div>
-      </section>
-    </main>
+        {/* Faturas */}
+        <section className="mt-8">
+          <div className="rounded-2xl border border-[#2b2f44] bg-[#0a0f1e] p-4">
+            <h3 className="text-lg font-medium mb-4">Faturas & Compensações</h3>
+            <RecentInvoices rows={MOCK_INVOICES} />
+          </div>
+        </section>
+      </main>
   );
 }
